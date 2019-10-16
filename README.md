@@ -18,3 +18,6 @@ steps to run:
 3. Navigate a terminal window to /server/routes and run python3 api.py to get the backend running
 4. npm run start another terminal to get your react server running
 5. Visit http://localhost:3000/ and graph away!
+
+
+![Projectscreenshot](/public/python-react-flask-graphs.png)
