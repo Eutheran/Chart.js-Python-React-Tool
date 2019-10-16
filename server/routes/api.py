@@ -7,10 +7,6 @@ app = Flask(__name__)
 app.config["DEBUG"] = True
 
 
-@app.route('/', methods=['GET'])
-def home():
-    return "<h1>All Information From Bandwidths</h1><p>Let's take a look at some interesting data.</p>"
-
 # A route to return all data from the file
 @app.route('/api/bandwidth_info', methods=['GET'])
 def info_filter():
@@ -28,7 +24,7 @@ def info_filter():
         start_time = end_time - (num_windows * window_time)
         # Building smaller dataset for performance optimization
         filtered_arr = []
-        #
+        # Final Return Information
         result_arr = []
 
         for data_point in BANDWIDTHS:
