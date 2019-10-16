@@ -7,6 +7,13 @@ app = Flask(__name__)
 app.config["DEBUG"] = True
 
 
+@app.route('/')
+def root():
+    response = 'Online'
+    response = jsonify(response)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
 # A route to return all data from the file
 @app.route('/api/bandwidth_info', methods=['GET'])
 def info_filter():
