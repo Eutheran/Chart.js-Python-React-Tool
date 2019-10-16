@@ -25,7 +25,7 @@ def info_filter():
         # Building smaller dataset for performance optimization
         filtered_arr = []
         # Final Return Information
-        result_arr = []
+        response_arr = []
 
         for data_point in BANDWIDTHS:
             # skip if id doesnt match
@@ -45,14 +45,17 @@ def info_filter():
                 [data['bytes_ts'] for data in filtered_arr if time_chunk_start <= data['timestamp'] < time_chunk_end])
             bytes_fs = sum(
                 [data['bytes_fs'] for data in filtered_arr if time_chunk_start <= data['timestamp'] < time_chunk_end])
-            result_arr.append({
+            response_arr.append({
                 "time_start": time_chunk_start,
                 "time_end": time_chunk_end,
                 "bytes_ts": bytes_ts,
                 "bytes_fs": bytes_fs
             })
 
-        return jsonify(result_arr)
+        response_arr = jsonify(response_arr)
+        # Required to enable cross-server communcation
+        response_arr.headers.add('Access-Control-Allow-Origin', '*')
+        return response_arr
     else:
         return' Error: Need to input a valid device uuid'
 
