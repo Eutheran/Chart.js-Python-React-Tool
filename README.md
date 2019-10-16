@@ -1,4 +1,5 @@
-# interview-platform-take-home
+
+![Projectscreenshot](/public/python-react-flask-graphs.png)
 
 Notes to the team:
 
@@ -19,5 +20,3 @@ steps to run:
 4. npm run start another terminal to get your react server running
 5. Visit http://localhost:3000/ and graph away!
 
-
-![Projectscreenshot](/public/python-react-flask-graphs.png)
