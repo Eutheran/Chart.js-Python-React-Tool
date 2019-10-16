@@ -7,52 +7,64 @@ export default class GraphView extends Component {
   constructor() {
     super();
     this.state = {
-      data: {
-        labels: [
-          'January',
-          'February',
-          'March',
-          'April',
-          'May',
-          'June',
-          'July',
-        ],
+      data: null,
+      graphData: null,
+    };
+  }
+  async componentDidMount() {
+    //to set up a build and deploy URL for the future
+    const url = 'http://127.0.0.1:5000/api/bandwidth_info';
+    try {
+      const params = document.location.search;
+      const res = await Axios.get(`${url}${params}`);
+      const data = res.data;
+      this.setState({ data });
+      this.setGraphData();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  setGraphData() {
+    let timeEndArr = [];
+    let bytesFsArr = [];
+    let bytesTsArr = [];
+    this.state.data.forEach(dataPoint => {
+      timeEndArr.push(dataPoint.time_end);
+      bytesFsArr.push(dataPoint.bytes_fs);
+      bytesTsArr.push(dataPoint.bytes_ts);
+    });
+
+    this.setState({
+      graphData: {
+        //needs to be time_end
+        labels: [...timeEndArr],
         datasets: [
           {
             label: 'Bytes To Server',
             borderColor: 'rgb(255, 99, 132)',
-            data: [0, 10, 5, 2, 20, 30, 45],
+            //need to put bytes_ts data here
+            data: [...bytesTsArr],
           },
           {
             label: 'Bytes From Server',
             borderColor: 'rgb(55, 99, 232)',
-            data: [5, 15, 25, 42, 50, 60, 75],
+            //put bytes_fs data here
+            data: [...bytesFsArr],
           },
         ],
       },
-    };
+    });
   }
 
-  // async componentDidMount() {
-  //   //to set up a build and deploy URL for the future
-  //   const url = 'http://127.0.0.1:5000/api/bandwidth_info';
-  //   try {
-  //     const params = document.location.search;
-  //     const res = await Axios.get(`${url}${params}`);
-  //     const data = res.data;
-  //     this.setState({ data });
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
-
   render() {
-    const { data } = this.state;
+    const { data, graphData } = this.state;
+
     return (
       <div className="graph-container">
         {data ? (
           <div>
-            <Line data={data} />
+            <Line data={graphData} />
           </div>
         ) : (
           ''
